@@ -1,7 +1,4 @@
 
-#include <fcntl.h>
-#include <unistd.h>
-
 #ifdef DEBUG
 	#include <stdio.h>
 	#define xprintf(fmt, ...)	printf("FILE:<%s>,FUN:<%s>,LINE:<%d>,"fmt"\n", __FILE__, __FUNCTION__, __LINE__, ##__VA_ARGS__)
@@ -23,6 +20,14 @@ typedef enum
 	AE_FAIL,
 	AE_ERR,
 }ae_status;
+
+/**************************
+windows通常不使用文件描述符
+**************************/
+#ifdef __linux_
+
+#include <fcntl.h>
+#include <unistd.h>
 
 ae_status set_fl(int fd, int flags)
 {
@@ -71,3 +76,5 @@ ae_status clr_fl(int fd, int flags)
 
 	return AE_SUCC;
 }
+
+#endif
